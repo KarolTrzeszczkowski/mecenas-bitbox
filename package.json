@@ -1,0 +1,16 @@
+{
+  "name": "bitbox-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@types/bigi": "^1.4.2",
+    "@types/randombytes": "^2.0.0",
+    "@types/wif": "^2.0.1",
+    "bitbox-cli": "^2.0.5",
+    "bitbox-sdk": "^8.6.0",
+    "spedn": "^0.1.1",
+    "typescript": "^3.5.3"
+  }
+}
