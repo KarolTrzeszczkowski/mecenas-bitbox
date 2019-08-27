@@ -1,18 +1,19 @@
 import { BITBOX } from "bitbox-sdk";
-import { P2PKH, SigHash, signWith, Spedn, TxBuilder } from "spedn";
+import { Challenges, Coin, Contract, Instance, P2PKH, SigHash, signWith, SigningContext, Spedn, TxBuilder } from "spedn";
+import * as bcl from "bitcoincashjs-lib"
 
-const bitbox = new BITBOX();
-const mnemonic = "draw parade crater busy book swim soldier tragic exit feel top civil";
-const wallet = bitbox.HDNode.fromSeed(bitbox.Mnemonic.toSeed(mnemonic));
-const bob = bitbox.HDNode.derivePath(wallet, "m/44'/145'/1'/0/0");
-const mecenas = bitbox.Address.cashToHash160("qztk55juvcuxjj5v9cdsrxxysv4wfuhu4vmxld6v6r");
-const protege = bitbox.Address.cashToHash160("qztk55juvcuxjj5v9cdsrxxysv4wfuhu4vmxld6v6r");
+const bitbox: BITBOX = new BITBOX();
+const mnemonic: string = "draw parade crater busy book swim soldier tragic exit feel top civil";
+const wallet: bcl.HDNode = bitbox.HDNode.fromSeed(bitbox.Mnemonic.toSeed(mnemonic));
+const bob: bcl.HDNode = bitbox.HDNode.derivePath(wallet, "m/44'/145'/1'/0/0");
+const mecenas: string = bitbox.Address.cashToHash160("qztk55juvcuxjj5v9cdsrxxysv4wfuhu4vmxld6v6r");
+const protege: string = bitbox.Address.cashToHash160("qztk55juvcuxjj5v9cdsrxxysv4wfuhu4vmxld6v6r");
 
 
 
-async function main() {
-  const compiler = new Spedn();
-  const Mecenas = await compiler.compileCode(`
+async function main(): Promise<void> {
+  const compiler: Spedn = new Spedn();
+  const Mecenas: Contract = await compiler.compileCode(`
   contract Mecenas(Ripemd160 pkh, Ripemd160 pkh2, int pledge) {
     challenge protege(PubKey pk, Sig sig, bin ver, bin hPhSo, bin scriptCode, bin value, bin nSequence, bin hashOutput, bin tail ) {
         verify size(ver) == 4;
@@ -61,7 +62,7 @@ async function main() {
   console.log(protege);
   console.log(mecenas);
 
-  const mec = new Mecenas({
+  const mec: Instance = new Mecenas({
     pkh: Buffer.from(protege, "hex"),
     pkh2: Buffer.from(mecenas, "hex"),
     pledge: 10000
@@ -70,16 +71,16 @@ async function main() {
   console.log(mec.getAddress("mainnet"));
   console.log(mec.challengeSpecs.protege);
 
-  const coins = await mec.findCoins("mainnet");
+  const coins: Coin[] = await mec.findCoins("mainnet");
   console.log(coins);
 
 
 
-  let addr = new P2PKH(bob.getIdentifier());
+  let addr: P2PKH = new P2PKH(bob.getIdentifier());
 
 
-  const txid = await new TxBuilder("mainnet")
-     .from(coins, (input, context) =>
+  const txid: TxBuilder = await new TxBuilder("mainnet")
+     .from(coins, (input: Challenges, context: SigningContext): Buffer =>
         input.receive({
            sig: context.sign(bob.keyPair, SigHash.SIGHASH_ALL),
            pubKey: bob.getPublicKeyBuffer()
