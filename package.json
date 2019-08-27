@@ -1,15 +1,18 @@
 {
   "name": "bitbox-example",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
-  "license": "MIT",
+  "license": "gplv3",
+  "author": "Karol Trzeszczkowski",
+  "contributors": [
+    "Gabriel Cardona <gabriel@bitcoin.com>"
+  ],
   "private": true,
   "dependencies": {
     "@types/bigi": "^1.4.2",
     "@types/randombytes": "^2.0.0",
     "@types/wif": "^2.0.1",
-    "bitbox-cli": "^2.0.5",
-    "bitbox-sdk": "^8.6.0",
+    "bitbox-sdk": "^8.8.0",
     "spedn": "^0.1.1",
     "typescript": "^3.5.3"
   }
