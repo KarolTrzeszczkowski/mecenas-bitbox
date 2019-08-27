@@ -2,7 +2,7 @@
   "name": "bitbox-example",
   "version": "1.0.1",
   "main": "index.js",
-  "license": "MIT",
+  "license": "gplv3",
   "author": "Karol Trzeszczkowski",
   "contributors": [
     "Gabriel Cardona <gabriel@bitcoin.com>"
